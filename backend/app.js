@@ -32,6 +32,10 @@ app.use('/api/user', userRoutes);
 app.use('/api/visit', visitRoutes);
 app.use('/api/tag', tagRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Servidor activo');
+});
+
 // 🔄 Sincronizar modelos y luego iniciar el servidor
 sequelize.authenticate()
   .then(() => {
