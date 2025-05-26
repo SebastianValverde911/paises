@@ -42,6 +42,20 @@ export class RegistryPage implements OnInit {
     console.log('Name:', this.name);  
     console.log('Role:', this.role);
     
+    Services.register(this.email, this.password, this.name, this.role).then(response => {
+      if(response.data.status == 'OK') {
+        console.log('Registration successful:', response.data);
+        this.router.navigate(['/login'], { replaceUrl: true }); // Redirige a la pestaña 1 después del registro exitoso
+      } else {
+        // Manejar el caso de error en el registro
+        console.error('Registration failed:', response.data);
+      }
+    }).catch(error => {
+      console.error('Error during registration:', error);
+      // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje al usuario
+      alert('Error durante el registro. Por favor, verifica tus datos.');
+    });
+    
   }
 
   handleChangeSelect(event: any) {
