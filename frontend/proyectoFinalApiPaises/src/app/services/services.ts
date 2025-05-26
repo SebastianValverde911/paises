@@ -18,8 +18,19 @@ class Services {
     }
 
     crearPais(nombre:string) {
-        return axios.post(environment.apiUrl+'/api/countries/', {
+        return axios.post(environment.apiUrl+'api/countries/', {
             name: nombre
+        });
+    }
+    
+    getPaises() {
+        return axios.get(environment.apiUrl+'api/countries');
+    }
+
+    crearCiudad(nombre:string,id:number) {
+        return axios.post(environment.apiUrl+'api/cities', {
+            name: nombre,
+            country_id: id
         });
     }
 }

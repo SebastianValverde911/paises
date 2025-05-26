@@ -13,9 +13,15 @@
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item routerDirection="root" id="present-alert">
+        <ion-item routerDirection="root" id="present-alert-pais">
           <ion-icon slot="start" name="globe"></ion-icon>
           <ion-label>Crear país</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item routerDirection="root" id="present-alert-ciudad" (click)="presentCiudadAlert()">
+          <ion-icon slot="start" name="globe"></ion-icon>
+          <ion-label>Crear ciudad</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
@@ -29,10 +35,24 @@
 </ion-menu>
 
 <ion-alert
-  trigger="present-alert"
+  trigger="present-alert-pais"
   header="Nombre del país"
   [buttons]="alertPaisButtons"
   [inputs]="alertPaisInputs"
+></ion-alert>
+
+<ion-alert
+  #ciudadAlert
+  header="Ciudad"
+  [buttons]="alertCiudadButtons"
+  [inputs]="alertCiudadInputs"
+></ion-alert>
+
+<ion-alert
+  #paisAlert
+  header="País de la ciudad"
+  [buttons]="alertCiudadPaisButtons"
+  [inputs]="alertCiudadPaisInputs"
 ></ion-alert>
 
 <div class="ion-page" id="main-content">
