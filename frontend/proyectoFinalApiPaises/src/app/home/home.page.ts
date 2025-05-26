@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonButt
 import { Router } from '@angular/router';
 import Services from '../services/services';
 import { Keyboard } from '@capacitor/keyboard';
+import {StorageService} from '../services/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomePage {
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router) {}  
+  constructor(private router: Router, private storage: StorageService) {}  
 
   ngOninit() {
     Keyboard.setScroll({ isDisabled: true });
@@ -24,6 +25,8 @@ export class HomePage {
   login() {
     Services.login(this.email, this.password).then(response => {
       if(response.data.status == 'OK') {
+        this.storage.set('userInfo', response.data.user);
+        this.storage.set('token', response.data.token);
         console.log('Login successful:', response.data);
         this.router.navigate(['/dashboard'], { replaceUrl: true }); // Redirige a la pestaña 1 después del inicio de sesión exitoso
       } else {
