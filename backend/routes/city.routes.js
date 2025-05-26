@@ -5,6 +5,6 @@ const { verifyToken, isAdmin } = require('../middlewares/auth.middleware');
 const { getCitiesByCountry, createCity } = require('../controllers/city.controller');
 
 router.get('/country/:countryId', getCitiesByCountry);
-router.post('/', verifyToken, isAdmin, createCity);
+router.post('/', createCity);
 
 module.exports = router;
