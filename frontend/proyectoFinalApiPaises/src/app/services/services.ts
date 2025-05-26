@@ -16,6 +16,12 @@ class Services {
             role: role
         });
     }
+
+    crearPais(nombre:string) {
+        return axios.post(environment.apiUrl+'/api/countries/', {
+            name: nombre
+        });
+    }
 }
 
 export default new Services();

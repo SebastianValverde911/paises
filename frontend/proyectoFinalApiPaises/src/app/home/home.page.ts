@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonButton, IonInput } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import Services from '../services/services';
 import { Keyboard } from '@capacitor/keyboard';
@@ -9,7 +9,7 @@ import {StorageService} from '../services/storage.service';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent,IonButton,IonItem,IonLabel,IonInput ],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent,IonButton,IonInput ],
 })
 export class HomePage {
 

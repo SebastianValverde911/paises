@@ -1,13 +1,49 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Hola, {{nombreUserConnect}}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-menu contentId="main-content" menuClose>
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
+      <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item  routerDirection="root" (click)="saludo()"  menuClose>
+          <ion-icon slot="start" name="home"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item routerDirection="root" id="present-alert">
+          <ion-icon slot="start" name="globe"></ion-icon>
+          <ion-label>Crear país</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item routerDirection="root" (click)="logout()">
+          <ion-icon slot="start" name="accessibility"></ion-icon>
+          <ion-label>Salir</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-alert
+  trigger="present-alert"
+  header="Nombre del país"
+  [buttons]="alertPaisButtons"
+  [inputs]="alertPaisInputs"
+></ion-alert>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Hola, {{nombreUserConnect}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding"> 
+    Tap the button in the toolbar to open the menu. </ion-content>
+</div>
