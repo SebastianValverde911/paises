@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="log">
+    <div>
+      <ion-input label="Name" label-placement="floating" fill="outline"  type="name" name="name" (ionChange)="ionChangeInputName($event)"></ion-input>
+      <br />
+      <ion-input label="Email" label-placement="floating" fill="outline"  type="email" name="email" (ionChange)="ionChangeInputEmail($event)"></ion-input>
+      <br />
+      <ion-input label="Password" label-placement="floating" fill="outline"  type="password" name="password" (ionChange)="ionChangeInputPassword($event)"></ion-input>
+      <br />
+      <ion-select label="Rol" label-placement="floating" (ionChange)="handleChangeSelect($event)">
+        <ion-select-option value="admin">Administrador</ion-select-option>
+        <ion-select-option value="user">Usuario</ion-select-option>
+      </ion-select>
+      <br />
+    </div>
+    <div class="ion-padding">
+      <ion-button expand="full" (click)="register()">Registrar</ion-button>
+    </div>
+  </div>
+</ion-content>
