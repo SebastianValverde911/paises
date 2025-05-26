@@ -1,0 +1,7 @@
+{
+  "name": "proyectoFinalAppPaises",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
