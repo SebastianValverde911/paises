@@ -20,11 +20,17 @@ export class StorageService {
   
   // Create and expose methods that users of this service can
   // call, for example:
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
+  public async set(key: string, value: any) {
+    if (!this._storage) {
+      await this.init();
+    }
+    await this._storage?.set(key, value);
   }
 
-  public get(key: string) {
+  public async get(key: string) {
+    if (!this._storage) {
+      await this.init();
+    }
     return this._storage?.get(key);
   }
 
