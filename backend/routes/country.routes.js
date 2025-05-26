@@ -12,7 +12,7 @@ const {
 
 router.get('/', getAllCountries);
 router.get('/:id', getCountryById);
-router.post('/', verifyToken, isAdmin, createCountry);
+router.post('/', createCountry);
 router.put('/:id', verifyToken, isAdmin, updateCountry);
 router.delete('/:id', verifyToken, isAdmin, deleteCountry);
 

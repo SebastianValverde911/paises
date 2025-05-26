@@ -27,9 +27,13 @@ const createCountry = async (req, res) => {
   const { name } = req.body;
   try {
     const newCountry = await Country.create({ name });
-    res.status(201).json(newCountry);
+    //res.status(201).json(newCountry);
+    res.status(201).json({
+      info:newCountry,
+      status: "OK"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message, status: "Failure" });
   }
 };
 
