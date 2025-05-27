@@ -226,13 +226,14 @@ export class DashboardPage implements OnInit {
     });
   }
   
-
-  async ngOnInit() {
+  async ionViewWillEnter() {
     const data = await this.storage.get('userInfo');
-    if (data) {
-      this.nombreUserConnect = data.name;
-    }
+    this.nombreUserConnect = data?.name || '';
     this.obtenerPaises();
+  }
+
+  ngOnInit() {
+   
   }
 
   logout() {

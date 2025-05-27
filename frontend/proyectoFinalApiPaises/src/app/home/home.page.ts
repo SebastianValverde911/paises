@@ -18,7 +18,7 @@ export class HomePage {
 
   constructor(private router: Router, private storage: StorageService) {}  
 
-  ngOninit() {
+  ngOnInit() {
     Keyboard.setScroll({ isDisabled: true });
   }
 
