@@ -25,8 +25,14 @@
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item routerDirection="root" (click)="logout()">
+        <ion-item routerDirection="root" id="present-alert-famoso" (click)="presentFamosoAlert()">
           <ion-icon slot="start" name="accessibility"></ion-icon>
+          <ion-label>Crear famoso</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item routerDirection="root" (click)="logout()">
+          <ion-icon slot="start" name="time"></ion-icon>
           <ion-label>Salir</ion-label>
         </ion-item>
       </ion-menu-toggle>
@@ -42,17 +48,38 @@
 ></ion-alert>
 
 <ion-alert
-  #ciudadAlert
-  header="Ciudad"
-  [buttons]="alertCiudadButtons"
-  [inputs]="alertCiudadInputs"
+#ciudadAlert
+header="Nombre de la ciudad"
+[buttons]="alertCiudadButtons"
+[inputs]="alertCiudadInputs"
 ></ion-alert>
 
 <ion-alert
-  #paisAlert
-  header="País de la ciudad"
-  [buttons]="alertCiudadPaisButtons"
-  [inputs]="alertCiudadPaisInputs"
+#paisAlert
+header="País de la ciudad"
+[buttons]="alertCiudadPaisButtons"
+[inputs]="alertCiudadPaisInputs"
+></ion-alert>
+
+<ion-alert
+trigger="present-alert-famoso"
+header="Famoso"
+[buttons]="alertFamosoButtons"
+[inputs]="alertFamosoInputs"
+></ion-alert>
+
+<ion-alert
+#paisFamosoAlert
+header="País del famoso"
+[buttons]="alertPaisFamosoButtons"
+[inputs]="alertPaisFamosoInputs"
+></ion-alert>
+
+<ion-alert
+#ciudadFamosoAlert
+header="Ciudad del famoso"
+[buttons]="alertCiudadFamosoButtons"
+[inputs]="alertCiudadFamosoInputs"
 ></ion-alert>
 
 <div class="ion-page" id="main-content">

@@ -33,6 +33,18 @@ class Services {
             country_id: id
         });
     }
+
+    getCitiesByCountry(id:number) {
+        return axios.get(environment.apiUrl+'api/cities/country/'+id);
+    }
+
+    crearFamoso(nombre:string,motivo:string,ciudad_id:number) {
+        return axios.post(environment.apiUrl+'api/famous', {
+            name: nombre,
+            category: motivo,
+            city_id: ciudad_id
+        });
+    }
 }
 
 export default new Services();
