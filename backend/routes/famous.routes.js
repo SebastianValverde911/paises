@@ -5,6 +5,6 @@ const { verifyToken, isAdmin } = require('../middlewares/auth.middleware');
 const { getFamousByCountry, createFamous } = require('../controllers/famous.controller');
 
 router.get('/country/:countryId', getFamousByCountry);
-router.post('/', verifyToken, isAdmin, createFamous);
+router.post('/', createFamous);
 
 module.exports = router;
