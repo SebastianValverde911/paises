@@ -24,12 +24,13 @@ const getSitesByCountry = async (req, res) => {
 };
 
 const createSite = async (req, res) => {
-  const { name, city_id, type } = req.body;
+  const { name, city_id, type,description } = req.body;
   try {
     const newSite = await Site.create({
       name,
       city_id,
       type,
+      description
     });
 
     res.status(201).json(newSite);
