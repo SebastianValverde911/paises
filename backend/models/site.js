@@ -6,7 +6,7 @@ const Site = sequelize.define('Site', {
   name: DataTypes.STRING,
   type: DataTypes.STRING,
   description: DataTypes.TEXT,
-  city_id: {
+  cityId: { // <-- camelCase
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -16,7 +16,7 @@ const Site = sequelize.define('Site', {
   }
 });
 
-Site.belongsTo(City, { foreignKey: 'city_id' });
-City.hasMany(Site, { foreignKey: 'city_id' });
+Site.belongsTo(City, { foreignKey: 'cityId' });
+City.hasMany(Site, { foreignKey: 'cityId' });
 
 module.exports = Site;
