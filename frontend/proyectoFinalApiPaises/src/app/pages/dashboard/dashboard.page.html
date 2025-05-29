@@ -31,11 +31,18 @@
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
+        <ion-item routerDirection="root" (click)="goToSites()">
+          <ion-icon slot="start" name="pizza"></ion-icon>
+          <ion-label>Sitios</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
         <ion-item routerDirection="root" (click)="logout()">
           <ion-icon slot="start" name="time"></ion-icon>
           <ion-label>Salir</ion-label>
         </ion-item>
       </ion-menu-toggle>
+      
     </ion-list>
   </ion-content>
 </ion-menu>

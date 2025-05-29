@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonAlert, IonMenuToggle,IonLabel,IonIcon,IonItem,IonList, IonMenuButton, IonButtons, IonMenu, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { StorageService } from 'src/app/services/storage.service';
 import { addIcons } from 'ionicons';
-import { home,globe,accessibility,people, time } from 'ionicons/icons';
+import { home,globe,accessibility,people, time,pizza } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import Services from '../../services/services'
  
@@ -23,7 +23,7 @@ export class DashboardPage implements OnInit {
   @ViewChild('ciudadFamosoAlert', { static: false }) ciudadFamosoAlert!: IonAlert;
   nombreUserConnect: string = '';
   constructor(private storage: StorageService, private router: Router) { 
-    addIcons({home,globe,accessibility,people,time});
+    addIcons({home,globe,accessibility,people,time,pizza});
   }
 
   public alertPaisButtons = [
@@ -243,5 +243,9 @@ export class DashboardPage implements OnInit {
 
   saludo() {
     //console.log('Hola, ' + this.nombreUserConnect);
+  }
+
+  goToSites() {
+    this.router.navigate(['/sites']);
   }
 }
