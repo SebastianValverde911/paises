@@ -45,6 +45,15 @@ class Services {
             city_id: ciudad_id
         });
     }
+
+    crearSitio(nombre:string, tipo:string, descripcion:string, ciudad_id:number) {
+        return axios.post(environment.apiUrl+'api/sites', {
+            name: nombre,
+            type: tipo,
+            description: descripcion,
+            city_id: ciudad_id
+        });
+    }
 }
 
 export default new Services();
