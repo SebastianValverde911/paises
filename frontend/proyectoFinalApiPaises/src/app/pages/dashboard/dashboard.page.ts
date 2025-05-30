@@ -21,6 +21,8 @@ export class DashboardPage implements OnInit {
   sitiosFavoritos: any[] = [];
   paises: any[] = [];
   ciudades: any[] = [];
+  famosos: any[] = [];
+  sitios: any[] = [];
 
   @ViewChild('ciudadAlert', { static: false }) ciudadAlert!: IonAlert;
   @ViewChild('paisAlert', { static: false }) paisAlert!: IonAlert;
@@ -266,21 +268,49 @@ export class DashboardPage implements OnInit {
     this.router.navigate(['/sites']);
   }
 
-  getCiudades() {
+  async getCiudades() {
     this.ciudades = [];
-    for (let i = 0; i < this.paises.length; i++) {
-      Services.getCitiesByCountry(this.paises[i].id).then(response => {
-        this.ciudades.push(...response.data);
-      }).catch(error => {
-        console.error('Error during getCiudades:', error);
-        // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje al usuario
-        alert('Error al obtener las ciudades.');
-      });
-    }
+    const promises = this.paises.map(pais =>
+      Services.getCitiesByCountry(pais.id)
+        .then(response => {
+          this.ciudades.push(...response.data);
+        })
+        .catch(error => {
+          console.error('Error during getCiudades:', error);
+          alert('Error al obtener las ciudades.');
+        })
+    );
+    await Promise.all(promises);
+    this.getFamososByCity();
+    this.getSitiosByCity();
   }
 
   getPaisNameById(id: number): string {
-  const pais = this.paises.find(p => p.id === id);
-  return pais ? pais.name : '';
-}
+    const pais = this.paises.find(p => p.id === id);
+    return pais ? pais.name : '';
+  }
+
+  getFamososByCity() {
+    console.log('Obteniendo famosos por ciudad...');
+    this.famosos = [];
+    this.ciudades.forEach(ciudad => {
+      Services.getFamososByCity(ciudad.id).then(response => {
+        this.famosos.push(...response.data);
+      }).catch(error => {
+        console.error('Error during getFamososByCity:', error);
+        alert('Error al obtener los famosos de la ciudad.');
+      });
+    });
+  }
+
+  getSitiosByCity() {
+    this.ciudades.forEach(ciudad => {
+      Services.getSitesByCity(ciudad.id).then(response => {
+        this.sitios.push(...response.data);
+      }).catch(error => {
+        console.error('Error during getSitiosByCity:', error);
+        alert('Error al obtener los sitios de la ciudad.');
+      });
+    });
+  }
 }

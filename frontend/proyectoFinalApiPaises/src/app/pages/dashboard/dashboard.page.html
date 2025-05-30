@@ -171,8 +171,51 @@ header="Ciudad del famoso"
         }
       }
     </ion-list>
-    Famosos 
-    Comidas
+    <h3>
+      Famosos
+    </h3> 
+    @if(famosos.length === 0) {
+      <ion-item>
+        <ion-label>No hay famosos</ion-label>
+      </ion-item>
+    } @else {
+      @for (famoso of famosos; track famoso.id) {
+        <ion-card>
+      <ion-card-header>
+        {{famoso.city_name}}
+        <ion-card-title>{{famoso.name}}</ion-card-title>
+        <ion-card-subtitle>{{famoso.category }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        
+      </ion-card-content>
+    </ion-card>
+      }
+    }
+
+    <h3>
+      Sitios
+    </h3> 
+    @if(sitios.length === 0) {
+      <ion-item>
+        <ion-label>No hay sitios</ion-label>
+      </ion-item>
+    } @else {
+      @for (sitio of sitios; track sitio.id) {
+        <ion-card>
+      <ion-card-header>
+        {{sitio.city_name}}
+        <ion-card-title>{{sitio.name}}</ion-card-title>
+        <ion-card-subtitle>{{sitio.type}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{sitio.description}}
+      </ion-card-content>
+    </ion-card>
+      }
+    }
     Sitios
   </ion-content>
 </div>

@@ -78,6 +78,15 @@ class Services {
     getVisitsByUser(user_id:number) {
         return axios.get(environment.apiUrl+'api/visit/'+user_id);
     }
+
+    getFamososByCity(id:number) {
+        return axios.get(environment.apiUrl+'api/famous/city/'+id);
+    }
+
+    getSitesByCity(id:number) {
+        return axios.get(environment.apiUrl+'api/sites/city/'+id);
+    }
+
 }
 
 export default new Services();
