@@ -106,17 +106,34 @@ export class SitesPage implements OnInit {
     });
     this.modal.dismiss(null, 'confirmar');
   }
+
   confirmPlato() {
-    console.log('Plato registrado:', this.platoName);
-    console.log('Plato Precio:', this.platoPrice);
-    console.log('sitio id:', this.siteId);
+    Services.crearPlato(this.platoName, this.platoPrice, this.siteId).then(response => {
+      if(response.status == 201) {
+        console.log('Plato creado:', response.data);
+      } else {
+        console.error('Error al crear plato:', response);
+      }
+    }).catch(error => {
+      console.error('Error durante crearPlato:', error);
+      alert('Error durante la creación del plato.');
+    });
+
     this.modalPlato.dismiss(null, 'confirmar');
 
   }
   confirmVisita() {
-    console.log("user id:", this.userInfo.id);
-    console.log("visita registrada:", this.fechaVisita);
-    console.log("sitio id:", this.siteId);
+    Services.crearVisita(this.fechaVisita, this.siteId, this.userInfo.id).then(response => {
+      if(response.status == 201) {
+        console.log('Visita creada:', response.data);
+      } else {
+        console.error('Error al crear visita:', response);
+      }
+    }).catch(error => {
+      console.error('Error durante crearVisita:', error);
+      alert('Error durante la creación de la visita.');
+    });
+
     this.modalVisita.dismiss(null, 'confirmar');
   }
 

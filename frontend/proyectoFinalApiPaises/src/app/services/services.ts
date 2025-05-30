@@ -66,6 +66,14 @@ class Services {
             SiteId: sitio_id
         });
     }
+
+    crearVisita(fecha:string, sitio_id:number, user_id:number) {
+        return axios.post(environment.apiUrl+'/api/visit', {
+            date: fecha,
+            SiteId: sitio_id,
+            UserId: user_id
+        });
+    }
 }
 
 export default new Services();
