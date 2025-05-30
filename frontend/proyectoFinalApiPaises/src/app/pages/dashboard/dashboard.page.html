@@ -99,8 +99,47 @@ header="Ciudad del famoso"
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding"> 
-    Visitas
-    Lugares favoritos
+    <h3>
+      Lugares visitados
+    </h3>
+    <ion-list>
+      @if (lugaresVisitados.length === 0) {
+        <ion-item>
+          <ion-label>No hay lugares visitados</ion-label>
+        </ion-item>
+      } @else {
+        @for (lugar of lugaresVisitados; track lugar.id) {
+          <ion-item>
+            <ion-label>{{lugar.site_name}}</ion-label>
+          </ion-item>
+        }
+      }
+    </ion-list>
+
+    <h3>
+      Lugares favoritos
+    </h3>
+    @if(sitiosFavoritos.length === 0) {
+      <ion-item>
+        <ion-label>No hay lugares favoritos</ion-label>
+      </ion-item>
+    } @else {
+      @for (lugarFav of sitiosFavoritos; track lugarFav.id) {
+        <ion-card>
+      <ion-card-header>
+        {{lugarFav.city_name}}
+        <ion-card-title>{{lugarFav.name}}</ion-card-title>
+        <ion-card-subtitle>{{lugarFav.type}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{lugarFav.description}}
+      </ion-card-content>
+    </ion-card>
+      }
+    }
+    
+
     Paises
     Ciudades
     Famosos 

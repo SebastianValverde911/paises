@@ -2,7 +2,7 @@ import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonAlert, IonMenuToggle,IonLabel,IonIcon,IonItem,IonList, IonMenuButton, IonButtons, IonMenu, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonCard, IonCardHeader, IonCardSubtitle, IonCardContent, IonCardTitle,   IonAlert, IonMenuToggle,IonLabel,IonIcon,IonItem,IonList, IonMenuButton, IonButtons, IonMenu, IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { StorageService } from 'src/app/services/storage.service';
 import { addIcons } from 'ionicons';
 import { home,globe,accessibility,people, time,pizza } from 'ionicons/icons';
@@ -14,9 +14,12 @@ import Services from '../../services/services'
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonAlert, IonMenuToggle,IonLabel,IonIcon,IonItem,IonList,IonButtons,IonMenuButton, IonMenu,IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonCard, IonCardHeader, IonCardSubtitle, IonCardContent,IonCardTitle, IonAlert, IonMenuToggle,IonLabel,IonIcon,IonItem,IonList,IonButtons,IonMenuButton, IonMenu,IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class DashboardPage implements OnInit {
+  lugaresVisitados: any[] = [];
+  sitiosFavoritos: any[] = [];
+
   @ViewChild('ciudadAlert', { static: false }) ciudadAlert!: IonAlert;
   @ViewChild('paisAlert', { static: false }) paisAlert!: IonAlert;
   @ViewChild('paisFamosoAlert', { static: false }) paisFamosoAlert!: IonAlert;
@@ -28,7 +31,7 @@ export class DashboardPage implements OnInit {
 
   getVisitPlaces(user_id: number) {
     Services.getVisitsByUser(user_id).then(response => {
-      console.log(response.data);
+      this.lugaresVisitados = response.data; 
     }).catch(error => {
       console.error('Error during getVisitsByUser:', error);
       alert('Error al obtener los lugares visitados.');
@@ -237,6 +240,8 @@ export class DashboardPage implements OnInit {
   
   async ionViewWillEnter() {
     const data = await this.storage.get('userInfo');
+    this.sitiosFavoritos = await this.storage.get('sitiosFavoritos');
+    console.log('Sitios Favoritos:', this.sitiosFavoritos);    
     this.nombreUserConnect = data?.name || '';
     this.obtenerPaises();
     this.getVisitPlaces(data?.id || 0);
