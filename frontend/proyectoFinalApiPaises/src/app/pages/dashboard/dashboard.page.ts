@@ -306,6 +306,7 @@ export class DashboardPage implements OnInit {
   }
 
   getSitiosByCity() {
+    this.sitios = [];
     this.ciudades.forEach(ciudad => {
       Services.getSitesByCity(ciudad.id).then(response => {
         this.sitios.push(...response.data);
