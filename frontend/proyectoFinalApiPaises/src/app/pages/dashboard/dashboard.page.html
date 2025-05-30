@@ -108,9 +108,9 @@ header="Ciudad del famoso"
           <ion-label>No hay lugares visitados</ion-label>
         </ion-item>
       } @else {
-        @for (lugar of lugaresVisitados; track lugar.id) {
+        @for (lugar of lugaresVisitados; track lugar.id; let i = $index) {
           <ion-item>
-            <ion-label>{{lugar.site_name}}</ion-label>
+            <ion-label>{{i + 1}}. {{lugar.site_name}}</ion-label>
           </ion-item>
         }
       }
@@ -124,11 +124,11 @@ header="Ciudad del famoso"
         <ion-label>No hay lugares favoritos</ion-label>
       </ion-item>
     } @else {
-      @for (lugarFav of sitiosFavoritos; track lugarFav.id) {
+      @for (lugarFav of sitiosFavoritos; track lugarFav.id; let i = $index) {
         <ion-card>
       <ion-card-header>
         {{lugarFav.city_name}}
-        <ion-card-title>{{lugarFav.name}}</ion-card-title>
+        <ion-card-title>{{i + 1}}. {{lugarFav.name}}</ion-card-title>
         <ion-card-subtitle>{{lugarFav.type}}</ion-card-subtitle>
       </ion-card-header>
 
@@ -147,9 +147,9 @@ header="Ciudad del famoso"
           <ion-label>No hay países</ion-label>
         </ion-item>
       } @else {
-        @for (pais of paises; track pais.id) {
+        @for (pais of paises; track pais.id; let i = $index) {
           <ion-item>
-            <ion-label>{{pais.name}}</ion-label>
+            <ion-label>{{i + 1}}. {{pais.name}}</ion-label>
           </ion-item>
         }
       }
@@ -164,9 +164,9 @@ header="Ciudad del famoso"
           <ion-label>No hay ciudades</ion-label>
         </ion-item>
       } @else {
-        @for (ciudadPorPais of ciudades; track ciudadPorPais.id) {
+        @for (ciudadPorPais of ciudades; track ciudadPorPais.id; let i = $index) {
           <ion-item>
-            <ion-label>{{ciudadPorPais.name}} - {{ getPaisNameById(ciudadPorPais.country_id) }}</ion-label>
+            <ion-label>{{i + 1}}. {{ciudadPorPais.name}} - {{ getPaisNameById(ciudadPorPais.country_id) }}</ion-label>
           </ion-item>
         }
       }
@@ -179,11 +179,11 @@ header="Ciudad del famoso"
         <ion-label>No hay famosos</ion-label>
       </ion-item>
     } @else {
-      @for (famoso of famosos; track famoso.id) {
+      @for (famoso of famosos; track famoso.id; let i = $index) {
         <ion-card>
       <ion-card-header>
         {{famoso.city_name}}
-        <ion-card-title>{{famoso.name}}</ion-card-title>
+        <ion-card-title>{{i + 1}}. {{famoso.name}}</ion-card-title>
         <ion-card-subtitle>{{famoso.category }}</ion-card-subtitle>
       </ion-card-header>
 
@@ -202,11 +202,11 @@ header="Ciudad del famoso"
         <ion-label>No hay sitios</ion-label>
       </ion-item>
     } @else {
-      @for (sitio of sitios; track sitio.id) {
+      @for (sitio of sitios; track sitio.id; let i = $index) {
         <ion-card>
       <ion-card-header>
         {{sitio.city_name}}
-        <ion-card-title>{{sitio.name}}</ion-card-title>
+        <ion-card-title>{{i + 1}}. {{ sitio.name}}</ion-card-title>
         <ion-card-subtitle>{{sitio.type}}</ion-card-subtitle>
       </ion-card-header>
 
@@ -216,6 +216,20 @@ header="Ciudad del famoso"
     </ion-card>
       }
     }
-    Sitios
+    
+    <h3>Platos</h3>
+    <ion-list>
+      @if (platos.length === 0) {
+        <ion-item>
+          <ion-label>No hay platos</ion-label>
+        </ion-item>
+      } @else {
+        @for (plato of platos; track plato.id; let i = $index) {
+          <ion-item>
+            <ion-label>{{i + 1}}. Nombre: {{plato.name}} - Precio: ${{plato.price}} - Sitio: {{plato.site_name}}</ion-label>
+          </ion-item>
+        }
+      }
+    </ion-list>
   </ion-content>
 </div>

@@ -23,6 +23,7 @@ export class DashboardPage implements OnInit {
   ciudades: any[] = [];
   famosos: any[] = [];
   sitios: any[] = [];
+  platos: any[] = [];
 
   @ViewChild('ciudadAlert', { static: false }) ciudadAlert!: IonAlert;
   @ViewChild('paisAlert', { static: false }) paisAlert!: IonAlert;
@@ -249,6 +250,7 @@ export class DashboardPage implements OnInit {
     this.nombreUserConnect = data?.name || '';
     this.obtenerPaises();
     this.getVisitPlaces(data?.id || 0);
+    this.traerTodosLosPlatos();
   }
 
   ngOnInit() {
@@ -311,6 +313,15 @@ export class DashboardPage implements OnInit {
         console.error('Error during getSitiosByCity:', error);
         alert('Error al obtener los sitios de la ciudad.');
       });
+    });
+  }
+
+  traerTodosLosPlatos() {
+    Services.getAllFood().then(response => {
+      this.platos = response.data;
+    }).catch(error => {
+      console.error('Error during getAllFood:', error);
+      alert('Error al obtener los platos.');
     });
   }
 }

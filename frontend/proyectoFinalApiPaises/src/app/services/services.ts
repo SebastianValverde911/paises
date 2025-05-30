@@ -67,6 +67,10 @@ class Services {
         });
     }
 
+    getAllFood() {
+        return axios.get(environment.apiUrl+'api/foods');
+    }
+
     crearVisita(fecha:string, sitio_id:number, user_id:number) {
         return axios.post(environment.apiUrl+'api/visit', {
             date: fecha,
