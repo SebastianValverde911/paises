@@ -2,14 +2,13 @@
 const { Visit, Site } = require('../models'); // Ajusta la ruta según corresponda
 
 const createVisit = async (req, res) => {
-  const userId = req.userId;
-  const { site_id, visit_date } = req.body;
+  const { SiteId, date, UserId } = req.body; 
 
   try {
     const newVisit = await Visit.create({
-      user_id: userId,
-      site_id,
-      visit_date,
+      date,
+      UserId, 
+      SiteId
     });
 
     res.status(201).json(newVisit);
@@ -19,11 +18,11 @@ const createVisit = async (req, res) => {
 };
 
 const getVisitsByUser = async (req, res) => {
-  const userId = req.userId;
+  const {UserId} = req.body;
 
   try {
     const visits = await Visit.findAll({
-      where: { user_id: userId },
+      where: { UserId },
       include: {
         model: Site,
         attributes: ['name'],
