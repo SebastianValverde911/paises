@@ -22,7 +22,7 @@ const getVisitsByUser = async (req, res) => {
 
   try {
     const visits = await Visit.findAll({
-      where: { id },
+      where: { UserId: id },
       include: {
         model: Site,
         attributes: ['name'],
