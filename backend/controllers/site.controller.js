@@ -39,4 +39,26 @@ const createSite = async (req, res) => {
   }
 };
 
-module.exports = { getSitesByCountry, createSite };
+const getSitesByCity = async (req, res) => {
+  const cityId = req.params.cityId;
+  try {
+    const sites = await Site.findAll({
+      where: { CityId: cityId },
+      include: {
+        model: City,
+        attributes: ['name', 'country_id'],
+      },
+    });
+
+    const response = sites.map(site => ({
+      ...site.toJSON(),
+      city_name: site.City.name,
+    }));
+
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getSitesByCountry, createSite, getSitesByCity };
