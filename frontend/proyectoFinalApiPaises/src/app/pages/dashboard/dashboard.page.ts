@@ -19,6 +19,8 @@ import Services from '../../services/services'
 export class DashboardPage implements OnInit {
   lugaresVisitados: any[] = [];
   sitiosFavoritos: any[] = [];
+  paises: any[] = [];
+  ciudades: any[] = [];
 
   @ViewChild('ciudadAlert', { static: false }) ciudadAlert!: IonAlert;
   @ViewChild('paisAlert', { static: false }) paisAlert!: IonAlert;
@@ -220,15 +222,14 @@ export class DashboardPage implements OnInit {
   obtenerPaises() {
     Services.getPaises().then( response => {
       
-      const paises = response.data;
-      const paisesInputs = paises.map((pais: any) => ({
+      this.paises = response.data;
+      const paisesInputs = this.paises.map((pais: any) => ({
           type: 'radio',
           label: pais.name, 
           value: pais.id 
         }));
        
       this.alertCiudadPaisInputs = [
-        
         ...paisesInputs
       ];
 
@@ -236,6 +237,7 @@ export class DashboardPage implements OnInit {
         ...paisesInputs
       ];
     });
+    this.getCiudades();
   }
   
   async ionViewWillEnter() {
@@ -263,4 +265,22 @@ export class DashboardPage implements OnInit {
   goToSites() {
     this.router.navigate(['/sites']);
   }
+
+  getCiudades() {
+    this.ciudades = [];
+    for (let i = 0; i < this.paises.length; i++) {
+      Services.getCitiesByCountry(this.paises[i].id).then(response => {
+        this.ciudades.push(...response.data);
+      }).catch(error => {
+        console.error('Error during getCiudades:', error);
+        // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje al usuario
+        alert('Error al obtener las ciudades.');
+      });
+    }
+  }
+
+  getPaisNameById(id: number): string {
+  const pais = this.paises.find(p => p.id === id);
+  return pais ? pais.name : '';
+}
 }

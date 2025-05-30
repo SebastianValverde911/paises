@@ -140,8 +140,37 @@ header="Ciudad del famoso"
     }
     
 
-    Paises
-    Ciudades
+    <h3>Paises</h3>
+    <ion-list>
+      @if (paises.length === 0) {
+        <ion-item>
+          <ion-label>No hay países</ion-label>
+        </ion-item>
+      } @else {
+        @for (pais of paises; track pais.id) {
+          <ion-item>
+            <ion-label>{{pais.name}}</ion-label>
+          </ion-item>
+        }
+      }
+    </ion-list>
+
+    <h3>
+      Ciudades
+    </h3>
+    <ion-list>
+      @if (ciudades.length === 0) {
+        <ion-item>
+          <ion-label>No hay ciudades</ion-label>
+        </ion-item>
+      } @else {
+        @for (ciudadPorPais of ciudades; track ciudadPorPais.id) {
+          <ion-item>
+            <ion-label>{{ciudadPorPais.name}} - {{ getPaisNameById(ciudadPorPais.country_id) }}</ion-label>
+          </ion-item>
+        }
+      }
+    </ion-list>
     Famosos 
     Comidas
     Sitios
