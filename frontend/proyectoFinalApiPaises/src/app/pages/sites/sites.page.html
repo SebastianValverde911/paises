@@ -9,17 +9,35 @@
 
 <ion-content [fullscreen]="true">
   <!-- <ion-button style="color: white;margin:10px 0; margin-left: 10px;">Crear sitio</ion-button> -->
-  <ion-button id="open-modal"  style="color: white;margin:10px 0;margin-left: 10px;">Crear sitio</ion-button>
+   @if (userInfo.role !== 'user') {
+    <ion-button id="open-modal" style="color: white;margin:10px 0;margin-left: 10px;">Crear sitio</ion-button>
+  }
   <ion-list>
     <ion-item>
-      <ion-select label="Escoge un país" placeholder="País">
+      <ion-select label="Escoge un país" placeholder="País" (ionChange)="searchSitioPais($event)">
         @for (pais of paises; track pais.id) {
             <ion-select-option [value]="pais.id">{{ pais.name }}</ion-select-option>
           }
       </ion-select>
     </ion-item>
   </ion-list>
-  <!-- <ion-list>a
+  @for (site of sitios; track site.id) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ site.name }} - {{ site.city_name }}</ion-card-title>
+        <ion-card-subtitle>{{ site.type }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{ site.description }}
+      </ion-card-content>
+      <div style="display: flex;">
+        <ion-button  fill="outline" color="primary" size="default" (click)="registrarVisita(site.id)">Registrar visita</ion-button>
+        <ion-button  fill="outline" color="dark" size="default" (click)="registrarPlato(site.id)">Registrar plato</ion-button>
+      </div>
+    </ion-card>
+  }
+  <!-- <ion-list>
     <ion-item *ngFor="let site of sites">
       <ion-label>
         <h2>{{ site.name }}</h2>
@@ -98,6 +116,74 @@
             <ion-select-option [value]="ciudad.id">{{ ciudad.name }}</ion-select-option>
           }
           </ion-select>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-content class="ion-padding">
+  <ion-modal #modalVisita (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancelVisita()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Visita</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirmVisita()" [strong]="true">Confirmar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-datetime 
+          presentation="date"
+          [(ngModel)]="fechaVisita"
+          (ionChange)="onFechaChange($event)"
+          placeholder="Selecciona una fecha"
+          ></ion-datetime>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-content class="ion-padding">
+  <ion-modal  #modalPlato (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancelPlato()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Plato</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirmPlato()" [strong]="true">Confirmar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Nombre del plato"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Nombre plato"
+            [(ngModel)]="platoName"
+            (ionInput)="onInputChange($event, 'platoName')"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Precio del plato"
+            labelPlacement="stacked"
+            type="number"
+            placeholder="Precio plato"
+            [(ngModel)]="platoPrice"
+            (ionInput)="onInputChange($event, 'platoPrice')"
+          ></ion-input>
         </ion-item>
       </ion-content>
     </ng-template>

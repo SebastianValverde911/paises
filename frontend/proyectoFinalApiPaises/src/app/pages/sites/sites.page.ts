@@ -1,26 +1,48 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonModal, IonContent, IonHeader, IonTitle, IonToolbar,IonButtons, IonBackButton, IonButton,IonList,IonItem,IonSelect,IonSelectOption } from '@ionic/angular/standalone';
+import { IonDatetime, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonModal, IonContent, IonHeader, IonTitle, IonToolbar,IonButtons, IonBackButton, IonButton,IonList,IonItem,IonSelect,IonSelectOption } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@ionic/core/components';
 import Services from 'src/app/services/services';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-sites',
   templateUrl: './sites.page.html',
   styleUrls: ['./sites.page.scss'],
   standalone: true,
-  imports: [IonModal,IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonButtons,IonBackButton, IonButton,IonList,IonItem,IonSelect,IonSelectOption]
+  imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonModal, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton, IonList, IonItem, IonSelect, IonSelectOption, IonDatetime]
 })
 export class SitesPage implements OnInit {
 
   paises: any[] = [];
   ciudades: any[] = [];
+  sitios: any[] = [];
+  siteId: number = 0;
+  userInfo: any = {};
  
-  constructor() { }
+  constructor(private storage: StorageService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.obtenerPaises();
+    this.userInfo = await this.storage.get('userInfo');
+    if (this.userInfo) {
+      //console.log('Usuario:', this.userInfo);
+    }
+  }
+
+  registrarVisita(siteId: number) {
+    this.siteId = siteId;
+    this.modalVisita.present();
+  }
+
+  registrarPlato(siteId: number) {
+    this.siteId = siteId;
+    this.modalPlato.present();
+  }
+
+  crearSitio() {
+    this.modal.present();
   }
 
   obtenerPaises() {
@@ -30,6 +52,8 @@ export class SitesPage implements OnInit {
     }
 
   @ViewChild(IonModal) modal!: IonModal;
+  @ViewChild('modalVisita', { static: false }) modalVisita!: IonModal;
+  @ViewChild('modalPlato', { static: false }) modalPlato!: IonModal;
 
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name: string = '';
@@ -37,16 +61,35 @@ export class SitesPage implements OnInit {
   description: string = '';
   countryId: number = 0;
   cityId: number = 0;
+  platoName: string = '';
+  platoPrice: number = 0;
+  fechaVisita: string = '';
 
   onInputChange(event: any, field: string) {
     const value = event.target.value;
     if (field === 'name') this.name = value;
     if (field === 'type') this.type = value;
     if (field === 'description') this.description = value;
+    if (field === 'platoName') this.platoName = value;
+    if (field === 'platoPrice') this.platoPrice = value;
+  }
+
+  onFechaChange(event: any) {
+    // El valor seleccionado está en event.detail.value
+    console.log('Fecha seleccionada:', event.detail.value);
+    this.fechaVisita = event.detail.value;
   }
 
   cancel() {
     this.modal.dismiss(null, 'cancelar');
+  }
+
+  cancelPlato() {
+    this.modalPlato.dismiss(null, 'cancelar');
+  }
+
+  cancelVisita(){
+    this.modalVisita.dismiss(null, 'cancelar');
   }
 
   confirm() {
@@ -61,6 +104,20 @@ export class SitesPage implements OnInit {
       // Aquí puedes manejar el error, por ejemplo, mostrar un mensaje al usuario
       alert('Error durante la creación del sitio.');
     });
+    this.modal.dismiss(null, 'confirmar');
+  }
+  confirmPlato() {
+    console.log('Plato registrado:', this.platoName);
+    console.log('Plato Precio:', this.platoPrice);
+    console.log('sitio id:', this.siteId);
+    this.modalPlato.dismiss(null, 'confirmar');
+
+  }
+  confirmVisita() {
+    console.log("user id:", this.userInfo.id);
+    console.log("visita registrada:", this.fechaVisita);
+    console.log("sitio id:", this.siteId);
+    this.modalVisita.dismiss(null, 'confirmar');
   }
 
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
@@ -74,6 +131,13 @@ export class SitesPage implements OnInit {
     const countryId = event.detail.value;
     Services.getCitiesByCountry(countryId).then(response => {
       this.ciudades = response.data;
+    });
+  }
+
+  searchSitioPais(event: any) {
+    const countryId = event.detail.value;
+    Services.getSitiosByCountry(countryId).then(response => {
+      this.sitios = response.data;
     });
   }
 

@@ -51,7 +51,19 @@ class Services {
             name: nombre,
             type: tipo,
             description: descripcion,
-            city_id: ciudad_id
+            CityId: ciudad_id
+        });
+    }
+
+    getSitiosByCountry(id:number) {
+        return axios.get(environment.apiUrl+'api/sites/country/'+id);
+    }
+
+    crearPlato(nombre:string, precio:number, sitio_id:number) {
+        return axios.post(environment.apiUrl+'api/foods', {
+            name: nombre,
+            price: precio,
+            SiteId: sitio_id
         });
     }
 }
