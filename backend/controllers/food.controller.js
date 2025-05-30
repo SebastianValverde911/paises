@@ -25,13 +25,12 @@ const getFoodsByCountry = async (req, res) => {
 };
 
 const createFood = async (req, res) => {
-  const { name, city_id, price, description } = req.body;
+  const { name, price, SiteId } = req.body; 
   try {
     const newFood = await Food.create({
       name,
-      city_id,
       price,
-      description,
+      SiteId 
     });
 
     res.status(201).json(newFood);
