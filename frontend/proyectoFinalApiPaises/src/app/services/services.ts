@@ -74,6 +74,10 @@ class Services {
             UserId: user_id
         });
     }
+
+    getVisitsByUser(user_id:number) {
+        return axios.get(environment.apiUrl+'api/visit/'+user_id);
+    }
 }
 
 export default new Services();

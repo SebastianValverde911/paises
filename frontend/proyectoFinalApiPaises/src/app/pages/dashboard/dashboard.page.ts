@@ -26,6 +26,15 @@ export class DashboardPage implements OnInit {
     addIcons({home,globe,accessibility,people,time,pizza});
   }
 
+  getVisitPlaces(user_id: number) {
+    Services.getVisitsByUser(user_id).then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.error('Error during getVisitsByUser:', error);
+      alert('Error al obtener los lugares visitados.');
+    });
+  }
+
   public alertPaisButtons = [
   {
     text: 'Crear',
@@ -230,6 +239,7 @@ export class DashboardPage implements OnInit {
     const data = await this.storage.get('userInfo');
     this.nombreUserConnect = data?.name || '';
     this.obtenerPaises();
+    this.getVisitPlaces(data?.id || 0);
   }
 
   ngOnInit() {

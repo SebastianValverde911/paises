@@ -18,7 +18,7 @@ const createVisit = async (req, res) => {
 };
 
 const getVisitsByUser = async (req, res) => {
-  const {UserId} = req.body;
+  const {UserId} = req.params;
 
   try {
     const visits = await Visit.findAll({
