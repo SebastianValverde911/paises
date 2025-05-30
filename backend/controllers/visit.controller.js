@@ -18,11 +18,11 @@ const createVisit = async (req, res) => {
 };
 
 const getVisitsByUser = async (req, res) => {
-  const {UserId} = req.params;
+  const {id} = req.params;
 
   try {
     const visits = await Visit.findAll({
-      where: { UserId },
+      where: { id },
       include: {
         model: Site,
         attributes: ['name'],
