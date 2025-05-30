@@ -1,17 +1,19 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonDatetime, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonModal, IonContent, IonHeader, IonTitle, IonToolbar,IonButtons, IonBackButton, IonButton,IonList,IonItem,IonSelect,IonSelectOption } from '@ionic/angular/standalone';
+import { IonIcon , IonDatetime, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonModal, IonContent, IonHeader, IonTitle, IonToolbar,IonButtons, IonBackButton, IonButton,IonList,IonItem,IonSelect,IonSelectOption } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@ionic/core/components';
 import Services from 'src/app/services/services';
 import { StorageService } from 'src/app/services/storage.service';
+import { addIcons } from 'ionicons';
+import { logoIonic,heart,camera,heartOutline,cameraOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-sites',
   templateUrl: './sites.page.html',
   styleUrls: ['./sites.page.scss'],
   standalone: true,
-  imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonModal, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton, IonList, IonItem, IonSelect, IonSelectOption, IonDatetime]
+  imports: [IonIcon,IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonModal, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton, IonList, IonItem, IonSelect, IonSelectOption, IonDatetime]
 })
 export class SitesPage implements OnInit {
 
@@ -20,8 +22,12 @@ export class SitesPage implements OnInit {
   sitios: any[] = [];
   siteId: number = 0;
   userInfo: any = {};
- 
-  constructor(private storage: StorageService) { }
+  latitude: number = 0;
+  longitude: number = 0;
+
+  constructor(private storage: StorageService) {
+    addIcons({ logoIonic, heart, camera,heartOutline,cameraOutline });
+  }
 
   async ngOnInit() {
     this.obtenerPaises();
@@ -54,6 +60,7 @@ export class SitesPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('modalVisita', { static: false }) modalVisita!: IonModal;
   @ViewChild('modalPlato', { static: false }) modalPlato!: IonModal;
+  @ViewChild('modalTag', { static: false }) modalTag!: IonModal;
 
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name: string = '';
@@ -91,6 +98,11 @@ export class SitesPage implements OnInit {
   cancelVisita(){
     this.modalVisita.dismiss(null, 'cancelar');
   }
+
+  cancelTag() {
+    this.modalTag.dismiss(null, 'cancelar');
+  }
+
 
   confirm() {
     Services.crearSitio(this.name, this.type, this.description, this.cityId).then(response => {
@@ -136,6 +148,9 @@ export class SitesPage implements OnInit {
 
     this.modalVisita.dismiss(null, 'confirmar');
   }
+  confirmTag() {
+    this.modalTag.dismiss(null, 'confirmar');
+  }
 
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
     if (event.detail.role === 'confirmar') {
@@ -156,6 +171,35 @@ export class SitesPage implements OnInit {
     Services.getSitiosByCountry(countryId).then(response => {
       this.sitios = response.data;
     });
+  }
+
+  addTag(siteId: number) {
+    console.log('Tag agregado al sitio:', siteId);
+    this.modalTag.present();
+  }
+
+  takePhoto(){
+    console.log('Tomando foto del sitio...');
+    // Aquí puedes implementar la lógica para tomar una foto
+    // Por ejemplo, usando la cámara del dispositivo
+  }
+
+  geolocalizar() {
+    console.log('Geolocalizando el sitio...');
+    // Aquí puedes implementar la lógica para geolocalizar
+  }
+
+  addFavorito(sitio:any) {
+    this.storage.saveRemoveSitio(sitio);
+  }
+
+  esFavorito(unSitio:any):boolean {
+    if(this.storage.sitiosInFavorites(unSitio)){
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 }
