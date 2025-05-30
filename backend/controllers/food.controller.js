@@ -1,5 +1,5 @@
 // controllers/food.controller.js
-const { Food, City } = require('../models'); // Ajusta la ruta según corresponda
+const { Food, City, Site } = require('../models'); // Ajusta la ruta según corresponda
 
 const getFoodsByCountry = async (req, res) => {
   const countryId = req.params.countryId;
@@ -39,4 +39,27 @@ const createFood = async (req, res) => {
   }
 };
 
-module.exports = { getFoodsByCountry, createFood };
+const getAllFoodsWithSiteName = async (req, res) => {
+  try {
+    const foods = await Food.findAll({
+      include: {
+        model: Site,
+        attributes: ['name'],
+      },
+    });
+
+    const response = foods.map(food => ({
+      id: food.id,
+      name: food.name,
+      price: food.price,
+      SiteId: food.SiteId,
+      site_name: food.Site ? food.Site.name : null,
+    }));
+
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getFoodsByCountry, createFood, getAllFoodsWithSiteName };
