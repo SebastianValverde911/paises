@@ -64,4 +64,28 @@ const getFamousByCity = async (req, res) => {
   }
 };
 
-module.exports = { getFamousByCountry, createFamous, getFamousByCity };
+const getAllFamous = async (req, res) => {
+  try {
+    const famousPeople = await FamousPerson.findAll({
+      include: {
+        model: City,
+        as: 'city',
+        attributes: ['name'],
+      }
+    });
+
+    const formatted = famousPeople.map(fp => ({
+      id: fp.id,
+      name: fp.name,
+      city_id: fp.city_id,
+      category: fp.category,
+      city_name: fp.city?.name
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getFamousByCountry, createFamous, getFamousByCity, getAllFamous };

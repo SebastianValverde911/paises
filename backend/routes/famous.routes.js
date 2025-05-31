@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const { verifyToken, isAdmin } = require('../middlewares/auth.middleware');
-const { getFamousByCity, createFamous } = require('../controllers/famous.controller');
+const { getAllFamous,getFamousByCity, createFamous } = require('../controllers/famous.controller');
 
 router.get('/city/:cityId', getFamousByCity);
+router.get('/',getAllFamous);
 router.post('/', createFamous);
 
 module.exports = router;
