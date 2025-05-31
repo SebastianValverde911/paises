@@ -7,6 +7,9 @@ import Services from 'src/app/services/services';
 import { StorageService } from 'src/app/services/storage.service';
 import { addIcons } from 'ionicons';
 import { logoIonic,heart,camera,heartOutline,cameraOutline } from 'ionicons/icons';
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-sites',
@@ -22,10 +25,11 @@ export class SitesPage implements OnInit {
   sitios: any[] = [];
   siteId: number = 0;
   userInfo: any = {};
-  latitude: number = 0;
-  longitude: number = 0;
+  public latitude: number = 0;
+  public longitude: number = 0;
+  famosos: any[] = [];
 
-  constructor(private storage: StorageService) {
+  constructor(private storage: StorageService,private cdr: ChangeDetectorRef) {
     addIcons({ logoIonic, heart, camera,heartOutline,cameraOutline });
   }
 
@@ -35,6 +39,7 @@ export class SitesPage implements OnInit {
     if (this.userInfo) {
       //console.log('Usuario:', this.userInfo);
     }
+    this.getFamosos();
   }
 
   registrarVisita(siteId: number) {
@@ -149,6 +154,7 @@ export class SitesPage implements OnInit {
     this.modalVisita.dismiss(null, 'confirmar');
   }
   confirmTag() {
+    alert('Tag agregado al sitio: ' + this.siteId+' userId: '+this.userInfo.id+' SiteId: '+this.siteId+' latitude: '+this.latitude+' longitude: '+this.longitude);
     this.modalTag.dismiss(null, 'confirmar');
   }
 
@@ -178,15 +184,33 @@ export class SitesPage implements OnInit {
     this.modalTag.present();
   }
 
-  takePhoto(){
-    console.log('Tomando foto del sitio...');
-    // Aquí puedes implementar la lógica para tomar una foto
-    // Por ejemplo, usando la cámara del dispositivo
+  imageUrl: string | undefined = '';
+  takePhoto = async () => {
+    const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri
+      });
+
+      // image.webPath will contain a path that can be set as an image src.
+      // You can access the original file using image.path, which can be
+      // passed to the Filesystem API to read the raw data of the image,
+      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+      this.imageUrl = image.webPath;
+
+      // Can be set to the src of an image now
+      //imageElement.src = this.imageUrl;
   }
 
-  geolocalizar() {
-    console.log('Geolocalizando el sitio...');
-    // Aquí puedes implementar la lógica para geolocalizar
+  async geolocalizar() {
+    const coordinates = await Geolocation.getCurrentPosition();
+    alert("Obteniendo coordenadas... ");
+    if(coordinates) {
+      this.latitude = coordinates.coords.latitude;
+      this.longitude = coordinates.coords.longitude;
+      this.cdr.detectChanges();
+    }
+    this.cdr.detectChanges();
   }
 
   addFavorito(sitio:any) {
@@ -200,6 +224,20 @@ export class SitesPage implements OnInit {
     else {
       return false;
     }
+  }
+
+  getFamosos(){
+    Services.getAllFamosos().then(response => {
+      if(response.status == 200) {
+        console.log('Famosos obtenidos:', response.data);
+        this.famosos = response.data;
+      } else {
+        console.error('Error al obtener famosos:', response);
+      }
+    }).catch(error => {
+      console.error('Error durante getFamosos:', error);
+      alert('Error al obtener los famosos.');
+    });
   }
 
 }

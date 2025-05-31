@@ -7,7 +7,8 @@ import { StorageService } from 'src/app/services/storage.service';
 import { addIcons } from 'ionicons';
 import { home,globe,accessibility,people, time,pizza } from 'ionicons/icons';
 import { Router } from '@angular/router';
-import Services from '../../services/services'
+import Services from '../../services/services';
+import { ChangeDetectorRef } from '@angular/core';
  
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,7 @@ export class DashboardPage implements OnInit {
   @ViewChild('paisFamosoAlert', { static: false }) paisFamosoAlert!: IonAlert;
   @ViewChild('ciudadFamosoAlert', { static: false }) ciudadFamosoAlert!: IonAlert;
   nombreUserConnect: string = '';
-  constructor(private storage: StorageService, private router: Router) { 
+  constructor(private storage: StorageService, private router: Router,private cdr: ChangeDetectorRef) { 
     addIcons({home,globe,accessibility,people,time,pizza});
   }
 
@@ -263,7 +264,7 @@ export class DashboardPage implements OnInit {
   }
 
   saludo() {
-    //console.log('Hola, ' + this.nombreUserConnect);
+   this.cdr.detectChanges();
   }
 
   goToSites() {
@@ -283,8 +284,9 @@ export class DashboardPage implements OnInit {
         })
     );
     await Promise.all(promises);
-    this.getFamososByCity();
-    this.getSitiosByCity();
+    await this.getFamososByCity();
+    await this.getSitiosByCity();
+    this.cdr.detectChanges();
   }
 
   getPaisNameById(id: number): string {
@@ -292,29 +294,33 @@ export class DashboardPage implements OnInit {
     return pais ? pais.name : '';
   }
 
-  getFamososByCity() {
+  async getFamososByCity() {
     console.log('Obteniendo famosos por ciudad...');
     this.famosos = [];
-    this.ciudades.forEach(ciudad => {
+    const promises = this.ciudades.map(ciudad =>
       Services.getFamososByCity(ciudad.id).then(response => {
         this.famosos.push(...response.data);
       }).catch(error => {
         console.error('Error during getFamososByCity:', error);
         alert('Error al obtener los famosos de la ciudad.');
-      });
-    });
+      })
+    );
+    await Promise.all(promises);
+    this.cdr.detectChanges();
   }
 
-  getSitiosByCity() {
+  async getSitiosByCity() {
     this.sitios = [];
-    this.ciudades.forEach(ciudad => {
+    const promises = this.ciudades.map(ciudad =>
       Services.getSitesByCity(ciudad.id).then(response => {
         this.sitios.push(...response.data);
       }).catch(error => {
         console.error('Error during getSitiosByCity:', error);
         alert('Error al obtener los sitios de la ciudad.');
-      });
-    });
+      })
+    );
+    await Promise.all(promises);
+    this.cdr.detectChanges();
   }
 
   traerTodosLosPlatos() {

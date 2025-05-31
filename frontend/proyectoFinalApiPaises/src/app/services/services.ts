@@ -91,6 +91,9 @@ class Services {
         return axios.get(environment.apiUrl+'api/sites/city/'+id);
     }
 
+    getAllFamosos() {
+        return axios.get(environment.apiUrl+'api/famous');
+    }
 }
 
 export default new Services();

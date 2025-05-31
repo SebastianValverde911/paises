@@ -201,13 +201,14 @@
           </ion-buttons>
           <ion-title>Tag</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirmPlato()" [strong]="true">Confirmar</ion-button>
+            <ion-button (click)="confirmTag()" [strong]="true">Confirmar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-button (click)="takePhoto()" style="margin: 10px 0; margin-left: 10px;">Tomar foto</ion-button>
         <ion-button (click)="geolocalizar()" style="margin: 10px 0; margin-left: 10px;">Geolocalizar</ion-button>
+        <pre>Lat: {{ latitude }} | Lng: {{ longitude }}</pre>
         <ion-item>
           <ion-input
             label="Latitude"
@@ -215,7 +216,6 @@
             type="text"
             placeholder="Latitude"
             [(ngModel)]="latitude"
-            (ionInput)="onInputChange($event, 'latitude')"
             disabled = "true"
           ></ion-input>
         </ion-item>
@@ -226,10 +226,25 @@
             type="text"
             placeholder="Longitude"
             [(ngModel)]="longitude"
-            (ionInput)="onInputChange($event, 'longitude')"
             disabled = "true"
           ></ion-input>
         </ion-item>
+        @if (imageUrl) {
+          <ion-item>
+            <img [src]="imageUrl" alt="Foto del sitio" style="width: 100%; height: auto;"/>
+          </ion-item>
+        }
+         <ion-item>
+        <ion-select label="Famoso" label-placement="floating">
+          @if(famosos.length > 0) {
+            @for (famoso of famosos; track famoso.id) {
+              <ion-select-option [value]="famoso.id">{{ famoso.name }}</ion-select-option>
+            }
+          } @else {
+            <ion-select-option disabled>No hay famosos disponibles</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
       </ion-content>
     </ng-template>
   </ion-modal>
